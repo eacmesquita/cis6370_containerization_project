@@ -848,17 +848,7 @@ public class UserController {
 	}
 
 	private String getProfileImageNameFromUsername(final String username) {
-		File f = new File(context.getRealPath("/resources/images"));
-		File[] matchingFiles = f.listFiles(new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				return name.startsWith(username + ".");
-			}
-		});
-
-		if (matchingFiles.length < 1) {
-			return null;
-		}
-		return matchingFiles[0].getName();
+		return username + ".png";
 	}
 
 	public String displayErrorForWeb(Throwable t) {
