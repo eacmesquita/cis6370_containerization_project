@@ -1,0 +1,11 @@
+# First stage: build the jar file
+FROM maven:3.2-jdk-8 AS builder
+COPY /app/src /usr/src/app/src
+COPY /app/pom.xml /usr/src/app
+RUN mvn -f /usr/src/app/pom.xml clean install
+# Second stage: copy only the jar to the minimal java runtime 
+FROM ibmjava:8-jre
+# copy jar from the first stage
+COPY --from=builder /usr/src/app/target/verademo.war verademo.war
+USER 1001
+CMD ["java", "-jar", "verademo.war"]
