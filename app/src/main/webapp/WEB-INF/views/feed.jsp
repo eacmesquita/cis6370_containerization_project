@@ -39,7 +39,6 @@
 					<li role="presentation" class="active"><a href="feed">Feed</a></li>
 					<li role="presentation"><a href="blabbers">Blabbers</a></li>
 					<li role="presentation"><a href="profile">Profile</a></li>
-					<li role="presentation"><a href="tools">Tools</a></li>
 					<li role="presentation"><a href="logout">Logout</a></li>
 				</ul>
 			</nav>

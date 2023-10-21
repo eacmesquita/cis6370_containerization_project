@@ -8,4 +8,6 @@ FROM ibmjava:8-jre
 # copy jar from the first stage
 COPY --from=builder /usr/src/app/target/verademo.war verademo.war
 USER 1001
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD curl -f http://localhost:8080/ || exit 1
 CMD ["java", "-jar", "verademo.war"]
