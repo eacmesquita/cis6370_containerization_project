@@ -4,7 +4,8 @@ COPY /app/src /usr/src/app/src
 COPY /app/pom.xml /usr/src/app
 RUN mvn -f /usr/src/app/pom.xml clean install
 # Second stage: copy only the jar to the minimal java runtime 
-FROM ibmjava:8-jre
+#FROM ibmjava:8-jre 
+FROM amazoncorretto:8u392-alpine3.18-jre
 # copy jar from the first stage
 COPY --from=builder /usr/src/app/target/verademo.war verademo.war
 USER 1001
