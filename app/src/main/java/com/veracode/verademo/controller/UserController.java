@@ -155,15 +155,16 @@ public class UserController {
 			Class.forName("com.mysql.jdbc.Driver");
 			connect = DriverManager.getConnection(Constants.create().getJdbcConnectionString());
 
-			/* START EXAMPLE VULNERABILITY */
 			// Execute the query
 			logger.info("Creating the Statement");
-			String sqlQuery = "select username, password, password_hint, created_at, last_login, real_name, blab_name from users where username='"
-					+ username + "' and password='" + md5(password) + "';";
-			sqlStatement = connect.createStatement();
+			String sqlQuery = "select username, password, password_hint, created_at, last_login, real_name, blab_name from users where username=? and password=? ;";
+			PreparedStatement prep = connect.prepareStatement(sqlQuery);
+			prep.setString(0, username);
+			prep.setString(1, md5(password));
+
+			//sqlStatement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			logger.info("Execute the Statement");
-			ResultSet result = sqlStatement.executeQuery(sqlQuery);
-			/* END EXAMPLE VULNERABILITY */
+			ResultSet result = prep.executeQuery(sqlQuery);
 
 			// Did we find exactly 1 user that matched?
 			if (result.first()) {
@@ -357,23 +358,19 @@ public class UserController {
 			Class.forName("com.mysql.jdbc.Driver");
 			connect = DriverManager.getConnection(Constants.create().getJdbcConnectionString());
 
-			/* START EXAMPLE VULNERABILITY */
 			// Execute the query
 			String mysqlCurrentDateTime = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))
 					.format(Calendar.getInstance().getTime());
-			StringBuilder query = new StringBuilder();
-			query.append("insert into users (username, password, created_at, real_name, blab_name) values(");
-			query.append("'" + username + "',");
-			query.append("'" + md5(password) + "',");
-			query.append("'" + mysqlCurrentDateTime + "',");
-			query.append("'" + realName + "',");
-			query.append("'" + blabName + "'");
-			query.append(");");
-
-			sqlStatement = connect.createStatement();
-			sqlStatement.execute(query.toString());
-			logger.info(query.toString());
-			/* END EXAMPLE VULNERABILITY */
+			String sqlQuery = "insert into users (username, password, created_at, real_name, blab_name) " +
+			"values(?,?,?,?,?);";
+			logger.info(sqlQuery);
+			PreparedStatement ps = connect.prepareStatement(sqlQuery);
+			ps.setString(0, username);
+			ps.setString(1, md5(password));
+			ps.setString(2, mysqlCurrentDateTime);
+			ps.setString(3, realName);
+			ps.setString(4, blabName);
+			ps.execute();
 
 			emailUser(username);
 		} catch (SQLException | ClassNotFoundException ex) {
@@ -471,13 +468,11 @@ public class UserController {
 			// Get the audit trail for this user
 			ArrayList<String> events = new ArrayList<String>();
 
-			/* START EXAMPLE VULNERABILITY */
-			String sqlMyEvents = "select event from users_history where blabber=\"" + username
-					+ "\" ORDER BY eventid DESC; ";
+			String sqlMyEvents = "select event from users_history where blabber=? ORDER BY eventid DESC; ";
 			logger.info(sqlMyEvents);
-			Statement sqlStatement = connect.createStatement();
+			PreparedStatement sqlStatement = connect.prepareStatement(sqlMyEvents);
+			sqlStatement.setString(0, sqlMyEvents);
 			ResultSet userHistoryResult = sqlStatement.executeQuery(sqlMyEvents);
-			/* END EXAMPLE VULNERABILITY */
 
 			while (userHistoryResult.next()) {
 				events.add(userHistoryResult.getString(1));

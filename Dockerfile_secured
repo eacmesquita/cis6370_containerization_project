@@ -1,14 +1,11 @@
-# First stage: build the jar file
+# First stage: build the application as a single war file
 FROM maven:3.2-jdk-8 AS builder
 COPY /app/src /usr/src/app/src
-COPY /app/pom.xml /usr/src/app
-RUN mvn -f /usr/src/app/pom.xml clean install
+COPY /app/pom-secure.xml /usr/src/app/pom.xml
+RUN mvn -f /usr/src/app/pom.xml clean package
+
 # Second stage: copy only the jar to the minimal java runtime 
-#FROM ibmjava:8-jre 
-FROM amazoncorretto:8u392-alpine3.18-jre
-# copy jar from the first stage
-COPY --from=builder /usr/src/app/target/verademo.war verademo.war
+FROM amazoncorretto:8u392-al2023-jre
+COPY --from=builder /usr/src/app/target/cisdemo.war cisdemo.war
 USER 1001
-HEALTHCHECK --interval=5m --timeout=3s \
-  CMD curl -f http://localhost:8080/ || exit 1
-CMD ["java", "-jar", "verademo.war"]
+CMD ["java", "-jar", "cisdemo.war"]

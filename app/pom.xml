@@ -2,10 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.veracode</groupId>
-	<artifactId>verademo</artifactId>
+	<artifactId>cisdemo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>verademo</name>
-	<url>https://github.com/veracode/verademo</url>
+	<name>cisdemo</name>
 	<packaging>war</packaging>
 
 	<parent>
@@ -33,12 +32,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.veracode.annotation</groupId>
-			<artifactId>VeracodeAnnotations</artifactId>
-			<version>[1.0.4,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.owasp.encoder</groupId>
@@ -129,7 +122,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>verademo</finalName>
+		<finalName>cisdemo</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

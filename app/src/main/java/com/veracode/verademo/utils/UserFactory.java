@@ -38,11 +38,9 @@ public class UserFactory {
 		InputStream decodedstream = Base64.getDecoder().wrap(stream);
 		ObjectInputStream in;
 		try {
-			/* START EXAMPLE VULNERABILITY */
 			in = new ObjectInputStream(decodedstream);
 			User user = (User) in.readObject();
 			in.close();
-			/* END EXAMPLE VULNERABILITY */
 
 			return user;
 
@@ -51,7 +49,9 @@ public class UserFactory {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

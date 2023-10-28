@@ -9,9 +9,6 @@ public class Constants {
 	private final String JDBC_PORT = "3306";
 	private final String JDBC_DATABASE = "blab";
 	private final String JDBC_USER = "blab";
-	/* START EXAMPLE VULNERABILITY */
-	private final String JDBC_PASSWORD = "z2^E6J4$;u;d";
-	/* END EXAMPLE VULNERABILITY */
 
 	private String hostname;
 	private String port;
@@ -37,7 +34,7 @@ public class Constants {
 		this.username = (userProp == null) ? JDBC_USER : userProp;
 		
 		String passwordProp = System.getenv("RDS_PASSWORD");
-		this.password = (passwordProp == null) ? JDBC_PASSWORD : passwordProp;
+		this.password = (passwordProp == null) ? passwordProp : null;
 	}
 
 	public static final Constants create() {
