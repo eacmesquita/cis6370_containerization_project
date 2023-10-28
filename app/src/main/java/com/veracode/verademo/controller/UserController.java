@@ -157,7 +157,7 @@ public class UserController {
 
 			// Execute the query
 			logger.info("Creating the Statement");
-			String sqlQuery = "select username, password, password_hint, created_at, last_login, real_name, blab_name from users where username=? and password=? ;";
+			String sqlQuery = "select username, password, password_hint, created_at, last_login, real_name, blab_name from users where username=? and password=?";
 			PreparedStatement prep = connect.prepareStatement(sqlQuery);
 			prep.setString(1, username);
 			prep.setString(2, md5(password));
