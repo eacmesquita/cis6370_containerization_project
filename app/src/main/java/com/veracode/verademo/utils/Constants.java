@@ -33,8 +33,7 @@ public class Constants {
 		String userProp = System.getenv("RDS_USERNAME");
 		this.username = (userProp == null) ? JDBC_USER : userProp;
 		
-		String passwordProp = System.getenv("RDS_PASSWORD");
-		this.password = (passwordProp == null) ? passwordProp : null;
+		this.password = System.getenv("RDS_PASSWORD");
 	}
 
 	public static final Constants create() {
