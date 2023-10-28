@@ -45,8 +45,8 @@ public class ListenCommand implements BlabberCommand {
 			sqlQuery = "INSERT INTO users_history (blabber, event) VALUES (?,?)";
 			logger.info(sqlQuery);
 			insertStmt = connect.prepareStatement(sqlQuery);
-			insertStmt.setString(0, blabberUsername);
-			insertStmt.setString(1, event);
+			insertStmt.setString(1, blabberUsername);
+			insertStmt.setString(2, event);
 			insertStmt.executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

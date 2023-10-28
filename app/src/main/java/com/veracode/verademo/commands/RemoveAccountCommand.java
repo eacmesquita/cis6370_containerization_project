@@ -45,14 +45,14 @@ public class RemoveAccountCommand implements BlabberCommand {
 			String event = "Removed account for blabber " + result.getString(1);
 			sqlQuery = "INSERT INTO users_history (blabber, event) VALUES (?,?)";
 			PreparedStatement pstmt = connect.prepareStatement(sqlQuery);
-			pstmt.setString(0, blabberUsername);
-			pstmt.setString(1, event);
+			pstmt.setString(1, blabberUsername);
+			pstmt.setString(2, event);
 			logger.info(sqlQuery);
 			pstmt.executeQuery();
 
 			sqlQuery = "DELETE FROM users WHERE username = ?";
 			PreparedStatement delStatement = connect.prepareStatement(sqlQuery);
-			delStatement.setString(0, blabberUsername);
+			delStatement.setString(1, blabberUsername);
 			logger.info(sqlQuery);
 			delStatement.executeUpdate();
 

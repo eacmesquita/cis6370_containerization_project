@@ -36,7 +36,7 @@ public class IgnoreCommand implements BlabberCommand {
 
 			sqlQuery = "SELECT blab_name FROM users WHERE username = ?";
 			selectPstmt = connect.prepareStatement(sqlQuery);
-			selectPstmt.setString(0, blabberUsername);
+			selectPstmt.setString(1, blabberUsername);
 			logger.info(sqlQuery);
 			ResultSet result = selectPstmt.executeQuery();
 			result.next();
@@ -45,8 +45,8 @@ public class IgnoreCommand implements BlabberCommand {
 			sqlQuery = "INSERT INTO users_history (blabber, event) VALUES (?,?)";
 			insertPstmt = connect.prepareStatement(sqlQuery);
 			logger.info(sqlQuery);
-			insertPstmt.setString(0, blabberUsername);
-			insertPstmt.setString(1, event);
+			insertPstmt.setString(1, blabberUsername);
+			insertPstmt.setString(2, event);
 			insertPstmt.executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

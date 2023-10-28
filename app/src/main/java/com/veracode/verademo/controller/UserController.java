@@ -159,8 +159,8 @@ public class UserController {
 			logger.info("Creating the Statement");
 			String sqlQuery = "select username, password, password_hint, created_at, last_login, real_name, blab_name from users where username=? and password=? ;";
 			PreparedStatement prep = connect.prepareStatement(sqlQuery);
-			prep.setString(0, username);
-			prep.setString(1, md5(password));
+			prep.setString(1, username);
+			prep.setString(2, md5(password));
 
 			//sqlStatement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			logger.info("Execute the Statement");
@@ -365,11 +365,11 @@ public class UserController {
 			"values(?,?,?,?,?);";
 			logger.info(sqlQuery);
 			PreparedStatement ps = connect.prepareStatement(sqlQuery);
-			ps.setString(0, username);
-			ps.setString(1, md5(password));
-			ps.setString(2, mysqlCurrentDateTime);
-			ps.setString(3, realName);
-			ps.setString(4, blabName);
+			ps.setString(1, username);
+			ps.setString(2, md5(password));
+			ps.setString(3, mysqlCurrentDateTime);
+			ps.setString(4, realName);
+			ps.setString(5, blabName);
 			ps.execute();
 
 			emailUser(username);
@@ -471,7 +471,7 @@ public class UserController {
 			String sqlMyEvents = "select event from users_history where blabber=? ORDER BY eventid DESC; ";
 			logger.info(sqlMyEvents);
 			PreparedStatement sqlStatement = connect.prepareStatement(sqlMyEvents);
-			sqlStatement.setString(0, sqlMyEvents);
+			sqlStatement.setString(1, sqlMyEvents);
 			ResultSet userHistoryResult = sqlStatement.executeQuery(sqlMyEvents);
 
 			while (userHistoryResult.next()) {
@@ -479,9 +479,10 @@ public class UserController {
 			}
 
 			// Get the users information
-			String sql = "SELECT username, real_name, blab_name FROM users WHERE username = '" + username + "'";
+			String sql = "SELECT username, real_name, blab_name FROM users WHERE username = ?";
 			logger.info(sql);
 			myInfo = connect.prepareStatement(sql);
+			myInfo.setString(1,username);
 			ResultSet myInfoResults = myInfo.executeQuery();
 			myInfoResults.next();
 
