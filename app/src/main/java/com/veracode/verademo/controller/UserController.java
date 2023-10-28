@@ -164,7 +164,7 @@ public class UserController {
 
 			//sqlStatement = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			logger.info("Execute the Statement");
-			ResultSet result = prep.executeQuery(sqlQuery);
+			ResultSet result = prep.executeQuery();
 
 			// Did we find exactly 1 user that matched?
 			if (result.first()) {
