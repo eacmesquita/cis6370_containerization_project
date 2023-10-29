@@ -6,6 +6,12 @@ RUN mvn -f /usr/src/app/pom.xml clean package
 
 # Second stage: copy only the jar to the minimal java runtime 
 FROM amazoncorretto:8u392-al2023-jre
-COPY --from=builder /usr/src/app/target/cisdemo.war cisdemo.war
+ARG APPLICATION_USER=appuser
+RUN adduser --no-create-home -u 1001 ${APPLICATION_USER} && mkdir /app && chown -R $APPLICATION_USER /app
 USER 1001
-CMD ["java", "-jar", "cisdemo.war"]
+
+COPY --from=builder --chown=1001:1001 /usr/src/app/target/cisdemo.war /app/cisdemo.war
+WORKDIR /app
+
+
+CMD ["java", "-jar", "/app/cisdemo.war"]
