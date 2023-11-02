@@ -32,7 +32,6 @@ services:
     restart: always
     environment:
       RDS_HOSTNAME: 'mariadb'
-      RDS_PASSWORD: 'z2^E6J4$;u;d'
 
     ports:
       # <Port exposed> : <MySQL Port running inside container>
@@ -41,9 +40,11 @@ services:
       - '8080'
     volumes:
       - type: volume
-        source: db
-        target: /docker-entrypoint-initdb.d
+        source: db_creds
+        target: /usr/db_creds
         read_only: true
 volumes:
     db:
+        external: true
+    db_creds:
         external: true

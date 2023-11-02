@@ -2,6 +2,10 @@ package com.veracode.verademo.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.io.IOException;
 
 public class Constants {
 	private final String JDBC_DRIVER = "mysql";
@@ -10,16 +14,14 @@ public class Constants {
 	private final String JDBC_DATABASE = "blab";
 	private final String JDBC_USER = "blab";
 
+    //refactor to pull password from mounted volume
+
 	private String hostname;
 	private String port;
 	private String dbname;
 	private String username;
 	private String password;
 
-	/**
-	 * Pull info from the system as an override, otherwise fall back to hardcoded values.
-	 * Environment variables are automatically set in AWS environments.
-	 */
 	public Constants() {
 		String dbnameProp = System.getenv("RDS_DB_NAME");
 		this.dbname = (dbnameProp == null) ? JDBC_DATABASE : dbnameProp;
@@ -33,7 +35,12 @@ public class Constants {
 		String userProp = System.getenv("RDS_USERNAME");
 		this.username = (userProp == null) ? JDBC_USER : userProp;
 		
-		this.password = System.getenv("RDS_PASSWORD");
+		try {
+			this.password = readFile("/usr/db_creds/password");
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static final Constants create() {
@@ -59,4 +66,8 @@ public class Constants {
 
 		return connection;
 	}
+
+	public String readFile(String path) throws IOException{
+        return new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.US_ASCII);
+    }
 }

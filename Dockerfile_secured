@@ -5,9 +5,9 @@ COPY /app/pom-secure.xml /usr/src/app/pom.xml
 RUN mvn -f /usr/src/app/pom.xml clean package
 
 # Second stage: copy only the jar to the minimal java runtime 
-FROM amazoncorretto:8u392-al2023-jre
+FROM amazoncorretto@sha256:3d21c4e760a60757d63cfaf6cf87c8c2de3bc2ab78a4447311854d393896712b
 ARG APPLICATION_USER=appuser
-RUN adduser --no-create-home -u 1001 ${APPLICATION_USER} && mkdir /app && chown -R $APPLICATION_USER /app
+RUN adduser --no-create-home -u 1001 ${APPLICATION_USER} && mkdir /app && chown -R ${APPLICATION_USER} /app
 USER 1001
 
 COPY --from=builder --chown=1001:1001 /usr/src/app/target/cisdemo.war /app/cisdemo.war
