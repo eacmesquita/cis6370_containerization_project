@@ -6,6 +6,9 @@ Dockerfile_insecure is the original Dockerfile.
 Dockerfile_secured is a Dockerfile that first builds the application and then copies over only the war file to a Java runtime image.
 Additionally, the code has been updated to avoid hardcoded databases passwords, and instead looks for a password mounted through Docker volumes. SQL injection attacks have also been suppressed.
 
+To build the application:
+docker build -f Dockerfile_secured -t cisapplication .
+
 A docker compose file was added to spin up the applications with mounted credentials
 
 docker volume create db
@@ -15,4 +18,4 @@ cp ../db/*.sql /var/lib/docker/volumes/db/_data/
 echo -n $password > /var/lib/docker/volumes/db_creds/_data/password
 
 
-and then starting the applications with docker-compose up -d
+and then starting the applications with docker-compose up -d. This will start up the MariaDB container with the data mounted, then the Java application
