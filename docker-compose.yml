@@ -3,6 +3,7 @@ services:
   mariadb:
     image: mariadb:10.6.2
     container_name: mariadb
+    user: mysql
     restart: always
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: true

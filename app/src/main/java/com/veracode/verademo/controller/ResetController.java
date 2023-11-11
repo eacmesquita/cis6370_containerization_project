@@ -106,6 +106,7 @@ public class ResetController {
 					"INSERT INTO users (username, password, password_hint, created_at, last_login, real_name, blab_name) values (?, ?, ?, ?, ?, ?, ?);");
 			for (int i = 0; i < users.length; i++) {
 				logger.info("Adding user " + users[i].getUserName());
+				//REFACTOR - use prepated statement
 				usersStatement.setString(1, users[i].getUserName());
 				usersStatement.setString(2, users[i].getPassword());
 				usersStatement.setString(3, users[i].getPasswordHint());

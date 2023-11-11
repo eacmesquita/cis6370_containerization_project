@@ -26,6 +26,7 @@ public class RemoveAccountCommand implements BlabberCommand {
 	 */
 	@Override
 	public void execute(String blabberUsername) {
+		//REFACTOR - use prepated statement
 		String sqlQuery = "DELETE FROM listeners WHERE blabber=? OR listener=?;";
 		logger.info(sqlQuery);
 		PreparedStatement action;

@@ -14,8 +14,6 @@ public class Constants {
 	private final String JDBC_DATABASE = "blab";
 	private final String JDBC_USER = "blab";
 
-    //refactor to pull password from mounted volume
-
 	private String hostname;
 	private String port;
 	private String dbname;
@@ -34,7 +32,7 @@ public class Constants {
 		
 		String userProp = System.getenv("RDS_USERNAME");
 		this.username = (userProp == null) ? JDBC_USER : userProp;
-		
+		    //REFACTOR to pull password from file
 		try {
 			this.password = readFile("/usr/db_creds/password");
 		}
@@ -67,6 +65,7 @@ public class Constants {
 		return connection;
 	}
 
+	//REFACTOR - read file
 	public String readFile(String path) throws IOException{
         return new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.US_ASCII);
     }

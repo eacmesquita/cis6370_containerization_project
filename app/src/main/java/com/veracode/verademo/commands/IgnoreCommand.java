@@ -24,6 +24,7 @@ public class IgnoreCommand implements BlabberCommand {
 
 	@Override
 	public void execute(String blabberUsername) {
+		//REFACTOR - use prepated statement
 		String sqlQuery = "DELETE FROM listeners WHERE blabber=? AND listener=?;";
 		logger.info(sqlQuery);
 		PreparedStatement action, selectPstmt, insertPstmt;

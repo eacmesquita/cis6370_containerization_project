@@ -24,6 +24,7 @@ public class ListenCommand implements BlabberCommand {
 
 	@Override
 	public void execute(String blabberUsername) {
+		//REFACTOR - use prepated statement
 		String sqlQuery = "INSERT INTO listeners (blabber, listener, status) values (?, ?, 'Active');";
 		logger.info(sqlQuery);
 		PreparedStatement action;

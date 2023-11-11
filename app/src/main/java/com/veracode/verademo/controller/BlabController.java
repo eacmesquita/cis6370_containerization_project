@@ -69,6 +69,7 @@ public class BlabController {
 			connect = DriverManager.getConnection(Constants.create().getJdbcConnectionString());
 
 			// Find the Blabs that this user listens to
+			//REFACTOR - use prepated statement
 			logger.info("Preparing the BlabsForMe Prepared Statement");
 			blabsForMe = connect.prepareStatement(String.format(sqlBlabsForMe, 10, 0));
 			blabsForMe.setString(1, username);
@@ -540,7 +541,7 @@ public class BlabController {
 			command = ucfirst(command);
 			if (!command.equalsIgnoreCase("Blabber") || !command.equalsIgnoreCase("Ignore") ||
 			!command.equalsIgnoreCase("Listen") || !command.equalsIgnoreCase("RemoveAccount")) {
-				throw new SecurityException("Illegal access attemp!");
+				throw new SecurityException("Illegal access attempt!");
 			}
 			Class<?> cmdClass = Class.forName("com.veracode.verademo.commands." + ucfirst(command) + "Command");
 			BlabberCommand cmdObj = (BlabberCommand) cmdClass.getDeclaredConstructor(Connection.class, String.class)

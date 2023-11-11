@@ -156,6 +156,7 @@ public class UserController {
 			connect = DriverManager.getConnection(Constants.create().getJdbcConnectionString());
 
 			// Execute the query
+			//REFACTOR - use prepared statement
 			logger.info("Creating the Statement");
 			String sqlQuery = "select username, password, password_hint, created_at, last_login, real_name, blab_name from users where username=? and password=?";
 			PreparedStatement prep = connect.prepareStatement(sqlQuery);
